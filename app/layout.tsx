@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
+import Navigation from "@/components/navagiation";
 
-const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"]});
-
+const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
   title: "blogman",
@@ -17,10 +17,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={ubuntu.className}
-      >
-        {children}
+      <body className={ubuntu.className}>
+        <div className="xl:max-w-[1280px] w-full m-auto mt-6 md:mt-12">
+          <Navigation />
+          {children}
+        </div>
       </body>
     </html>
   );
