@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navagiation";
+import CategoriesList from "@/components/categoriesList";
 
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={ubuntu.className}>
         <div className="xl:max-w-[1280px] w-full m-auto mt-6 md:mt-12">
           <Navigation />
+          <CategoriesList/>
           {children}
         </div>
       </body>

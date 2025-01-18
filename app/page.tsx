@@ -1,7 +1,9 @@
+// import HeadingModel from "@/components/heading";
+
 export default function Home() {
   return (
     <div className="">
-      <h1>Blog man</h1>
+      {/* <HeadingModel title="THE BLOG" /> */}
     </div>
   );
 }

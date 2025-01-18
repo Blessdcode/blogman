@@ -42,7 +42,7 @@ const Navigation = () => {
             href="/create-post"
             className="hover:text-primary flex items-center justify-center">
             <LuCirclePlus className="mr-1" size={20} />
-            Menu
+            Create Post
           </Link>
           <Link
             href="login"

@@ -1,11 +1,12 @@
+import HeadingModel from '@/components/heading';
 import React from 'react'
 
 const page = () => {
   return (
     <div>
-      post page
+      <HeadingModel title="The blog" />
     </div>
-  )
+  );
 }
 
 export default page
