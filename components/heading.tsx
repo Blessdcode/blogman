@@ -6,7 +6,7 @@ type title = {
 
 const HeadingModel = ({ title }: title) => {
   return (
-    <div className="border-t border-b border-white">
+    <div className="border-t border-b border-white my-5">
       <h1 className="font-semibold sm:text-[140px] text-[38px]  sm:leading-[160.8px] leading-[41.8px] tracking-[10px] text-center w-full uppercase">
         {title}
       </h1>

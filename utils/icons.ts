@@ -1,6 +1,7 @@
 import { LuCirclePlus } from "react-icons/lu";
-import { MdCreate } from "react-icons/md";
-import { FaHome, FaPenAlt, FaSignInAlt, FaBars, FaTimes } from "react-icons/fa";
+import { MdCreate,MdOutlineArrowOutward } from "react-icons/md";
+
+import { FaHome, FaPenAlt, FaSignInAlt, FaBars, FaTimes, FaCalendarAlt } from "react-icons/fa";
 
 export {
   LuCirclePlus,
@@ -10,4 +11,6 @@ export {
   FaSignInAlt,
   FaTimes,
   MdCreate,
+  FaCalendarAlt,
+  MdOutlineArrowOutward
 };
