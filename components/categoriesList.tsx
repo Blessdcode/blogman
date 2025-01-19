@@ -4,7 +4,7 @@ import { Categories } from "@/data/data";
 
 const CategoriesList = () => {
   return (
-    <div className="flex items-center space-x-6 ">
+    <div className="flex items-center flex-wrap gap-4 p-1 md:p-0 md:space-x-6 ">
       <Link
         href={`/`}
         className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all">
@@ -15,7 +15,7 @@ const CategoriesList = () => {
           <Link
             key={category.id}
             href={`/categories/${category.title}`}
-            className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all">
+            className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all text-base md:text-xl">
             {category.title}
           </Link>
         ))}

@@ -19,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={ubuntu.className}>
-        <div className="xl:max-w-[1280px] w-full m-auto mt-6 md:mt-12">
+        <div className="xl:max-w-[1280px] w-full m-auto mt-6 md:mt-12 ">
           <Navigation />
           <CategoriesList/>
           {children}

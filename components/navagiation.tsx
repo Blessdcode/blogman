@@ -10,12 +10,17 @@ import {
   FaTimes,
   LuCirclePlus,
 } from "@/utils/icons";
+import SignIn from "./sign-in";
 
 const Navigation = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [signIn, setSignIn] = useState(false);
 
   const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
+    setMenuOpen((prev) => !prev);
+  };
+  const toggleSignIn = () => {
+    setSignIn((prev) => !prev);
   };
 
   return (
@@ -32,7 +37,7 @@ const Navigation = () => {
         <div className="hidden md:flex space-x-7  px-6">
           <Link
             href="/post"
-            className="hover:text-primary flex items-center justify-center">
+            className="hover:text-lightBlue flex items-center justify-center">
             <div className="flex items-center">
               <FaPenAlt className="mr-1" size={20} />
             </div>
@@ -40,16 +45,17 @@ const Navigation = () => {
           </Link>
           <Link
             href="/create-post"
-            className="hover:text-primary flex items-center justify-center">
+            className="hover:text-lightBlue flex items-center justify-center">
             <LuCirclePlus className="mr-1" size={20} />
             Create Post
           </Link>
-          <Link
-            href="login"
-            className="hover:text-primary flex items-center justify-center">
+          <div
+            // href="/sign-in"
+            onClick={toggleSignIn}
+            className="hover:text-lightBlue flex items-center justify-center cursor-pointer">
             <FaSignInAlt className="mr-1" size={20} />
             Login
-          </Link>
+          </div>
         </div>
         {/* menu br */}
         <div className="md:hidden cursor-pointer flex items-center gap-2">
@@ -62,31 +68,38 @@ const Navigation = () => {
       </div>
       {/* mobile */}
       <div
-        className={`md:hidden w-full h-auto bg-white text-darkBlue  flex flex-col items-c justify-center text-start transition-transform duration-300 absolute z-50 p-6  ${
+        className={`md:hidden w-full h-full bg-white text-darkBlue  flex flex-col items-c justify-center text-start transition-transform duration-300 absolute z-50 p-6  ${
           menuOpen ? "transform translate-x-0" : "transform -translate-x-full"
         }`}>
         <Link
           href="/post"
-          className="hover:text-primary flex items-center justify-center mb-8 text-2xl"
+          className="hover:text-lightBlue flex items-center justify-center mb-8 text-2xl"
           onClick={() => setMenuOpen(false)}>
           <FaPenAlt className="mr-1" size={20} />
           Post
         </Link>
         <Link
           href="/create-post"
-          className="hover:text-primary flex items-center justify-center mb-8 text-2xl"
+          className="hover:text-lightBlue flex items-center justify-center mb-8 text-2xl"
           onClick={() => setMenuOpen(false)}>
           <LuCirclePlus className="mr-1" size={20} />
           Create post
         </Link>
-        <Link
-          href="/login"
-          className="hover:text-primary flex items-center justify-center mb-8 text-2xl"
-          onClick={() => setMenuOpen(false)}>
+        <div
+          className="hover:text-lightBlue flex items-center justify-center mb-8 text-2xl cursor-pointer"
+          onClick={() => {
+            toggleSignIn();
+            setMenuOpen(false);
+          }}>
           <FaSignInAlt className="mr-1" size={20} />
           Login
-        </Link>
+        </div>
       </div>
+      {signIn && (
+        <div className=" absolute left-0 top-30 right-0 w-full h-full z-30">
+          <SignIn toggleSignIn={toggleSignIn} />
+        </div>
+      )}
     </>
   );
 };

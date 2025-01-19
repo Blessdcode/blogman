@@ -20,7 +20,7 @@ const BlogPost = ({
   id,
   title,
   content,
-  author = "Anonymous", // Provide default value
+  author = "Anonymous", 
   imageUrl,
   links,
   category,
@@ -43,7 +43,7 @@ const BlogPost = ({
               alt={title}
               width={500}
               height={500}
-              className="object-cover w-full h-full"
+              className="object-cover w-full h-full hover:scale-150 transition-all duration-300 cursor-pointer"
             />
           ) : (
             <Image
