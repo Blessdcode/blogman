@@ -1,6 +1,9 @@
-import Image from "next/image";
 import React from "react";
+import Image from "next/image";
+import { signIn } from "next-auth/react";
+
 import { FaTimes } from "@/utils/icons";
+import { Button } from "./ui/button";
 
 interface SignInProps {
   toggleSignIn: () => void;
@@ -15,8 +18,8 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn }) => {
       </div>
       <h1 className="text-center mt-8">Sign in</h1>
       <div className="mt-4 p-4 flex flex-col items-center justify-center gap-4">
-        <button
-          //   onClick={() => signIn("github")}
+        <Button
+          onClick={() => signIn("github")}
           className="flex items-center border p-4 rounded-lg gap-4 hover:bg-slate-100/45 transition">
           <span>
             <Image
@@ -27,10 +30,10 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn }) => {
             />
           </span>
           Sign In With GitHub
-        </button>
+        </Button>
 
-        <button
-          //   onClick={() => signIn("google")}
+        <Button
+          onClick={() => signIn("google")}
           className="flex items-center border p-4 rounded-lg gap-4 hover:bg-slate-100/25 transition">
           <span>
             <Image
@@ -41,7 +44,7 @@ const SignIn: React.FC<SignInProps> = ({ toggleSignIn }) => {
             />
           </span>
           Sign In With Google
-        </button>
+        </Button>
       </div>
     </div>
   );
