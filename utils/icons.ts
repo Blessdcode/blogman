@@ -1,7 +1,15 @@
 import { LuCirclePlus } from "react-icons/lu";
-import { MdCreate,MdOutlineArrowOutward } from "react-icons/md";
-
-import { FaHome, FaPenAlt, FaSignInAlt, FaBars, FaTimes, FaCalendarAlt } from "react-icons/fa";
+import { RiSettings5Line } from "react-icons/ri";
+import { MdCreate, MdOutlineArrowOutward, MdMail } from "react-icons/md";
+import {
+  FaHome,
+  FaPenAlt,
+  FaSignInAlt,
+  FaBars,
+  FaTimes,
+  FaCalendarAlt,
+  FaUser,
+} from "react-icons/fa";
 
 export {
   LuCirclePlus,
@@ -12,5 +20,9 @@ export {
   FaTimes,
   MdCreate,
   FaCalendarAlt,
-  MdOutlineArrowOutward
+  MdOutlineArrowOutward,
+  FaUser,
+  MdMail,
+  RiSettings5Line,
+
 };

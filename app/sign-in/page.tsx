@@ -1,12 +1,12 @@
-import SignIn from "@/components/sign-in";
-import React from "react";
+import SignIn from '@/components/sign-in'
+import React from 'react'
 
 const pages = () => {
   return (
     <div>
-      <SignIn />
+      <SignIn/>
     </div>
-  );
-};
+  )
+}
 
-export default pages;
+export default pages

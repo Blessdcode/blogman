@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navagiation";
-import CategoriesList from "@/components/categoriesList";
+// import CategoriesList from "@/components/categoriesList";
 import { NextAuthProvider } from "@/components/provider";
 
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"] });
@@ -23,7 +23,6 @@ export default function RootLayout({
         <div className="xl:max-w-[1280px] w-full m-auto mt-6 md:mt-12 ">
           <NextAuthProvider>
             <Navigation />
-            <CategoriesList />
             {children}
           </NextAuthProvider>
         </div>
