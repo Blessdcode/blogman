@@ -1,11 +1,13 @@
-import HeadingModel from "@/components/heading";
 import React from "react";
+import CreatePost from "@/components/create-post";
+import HeadingModel from "@/components/heading";
 
 const page = () => {
   return (
     <div>
       {" "}
       <HeadingModel title="Create post" />
+      <CreatePost/>
     </div>
   );
 };
