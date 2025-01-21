@@ -1,6 +1,7 @@
 export type TCategories = {
   id: number;
   title: string;
+  catName: string;
 };
 
 export type TPost = {
