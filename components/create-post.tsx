@@ -64,10 +64,11 @@ const CreatePost = () => {
     <div className="flex flex-col justify-start sm:my-16 my-6">
       <form onSubmit={handleSubmit} className="flex flex-col gap-2 space-y-8">
         <input
+          // value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
           placeholder="Title"
-          className="px-4 py-2 border border-slate-300 rounded-md outline-none"
+          className="px-4 py-2 border border-slate-300 rounded-md outline text-darkBlue"
         />
 
         {/* <CldUploadButton

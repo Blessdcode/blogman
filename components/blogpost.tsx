@@ -5,6 +5,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FaCalendarAlt, MdOutlineArrowOutward } from "@/utils/icons";
 import Image from "next/image";
 import Link from "next/link";
+import SafeContent from "@/utils/SafeContent";
 
 interface PostProps {
   id: string;
@@ -84,7 +85,8 @@ const BlogPost = async ({
 
             <CardContent className="p-0">
               <p className="text-gray-600 mb-4 line-clamp-3">
-                {truncatedContent}
+                {/* {truncatedContent} */}
+                <SafeContent content={truncatedContent|| ""} />
               </p>
 
               {/* Links Section */}

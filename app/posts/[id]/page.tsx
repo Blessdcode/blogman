@@ -4,7 +4,9 @@ import { TPost } from "@/types/types";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import SafeContent from "@/utils/SafeContent";
 
+// import { redirect } from "next/navigation";
 
 const fetchPost = async (): Promise<TPost[] | null> => {
   try {
@@ -24,10 +26,13 @@ const fetchPost = async (): Promise<TPost[] | null> => {
 };
 
 const DetailPage = async ({ params }: { params: { id: string } }) => {
+  // const router= ()=>{
+  //   redirect("/")
+  // }
+
   const { id } = params;
   const posts = await fetchPost();
   const post = posts?.find((p) => p.id === id);
-  console.log(post,"posts")
 
   if (!post) {
     return (
@@ -37,9 +42,10 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
     );
   }
 
-  const authorInitial = post.author.name ? post.author.name.charAt(0).toUpperCase() : "A";
+  const authorInitial = post.author.name
+    ? post.author.name.charAt(0).toUpperCase()
+    : "A";
 
-  
   const dateObject = new Date(post.createdAt);
   const options: Intl.DateTimeFormatOptions = {
     month: "short",
@@ -49,10 +55,8 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
 
   const formattedDate = dateObject.toLocaleDateString("en-US", options);
 
-
   return (
     <div className="flex flex-col items-center bg-gray-50 min-h-screen p-8 sm:my-16 my-6">
-      <p className="text-lg">Back</p>
       {/* Hero Section */}
       <div className="relative w-full max-w-4xl rounded-lg overflow-hidden shadow-md bg-white">
         {post.imageUrl ? (
@@ -93,7 +97,7 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
 
       {/* Content Section */}
       <div className="w-full max-w-4xl mt-6 p-6 bg-white shadow-md rounded-lg">
-        <p className="text-gray-700 leading-relaxed">{post.content}</p>
+        <SafeContent content={post.content || ""} />
       </div>
 
       {/* Author Section */}
