@@ -9,6 +9,9 @@ import Heading from "@tiptap/extension-heading";
 import Paragraph from "@tiptap/extension-paragraph";
 import Blockquote from "@tiptap/extension-blockquote";
 import Image from "@tiptap/extension-image";
+import Highlight from "@tiptap/extension-highlight";
+import Link from "@tiptap/extension-link";
+import Underline from "@tiptap/extension-underline";
 
 import {
   RiBold,
@@ -16,6 +19,8 @@ import {
   RiStrikethrough,
   RiCodeSSlashLine,
   RiListOrdered2,
+  RiLink,
+  RiLinkUnlink,
 } from "react-icons/ri";
 import { AiOutlineRedo, AiOutlineUndo } from "react-icons/ai";
 import { BsTypeUnderline } from "react-icons/bs";
@@ -27,7 +32,7 @@ import {
   LuHeading4,
   LuQuote,
 } from "react-icons/lu";
-import { MdImage } from "react-icons/md";
+import { MdImage, MdOutlineHighlight } from "react-icons/md";
 
 type EditorProps = {
   editorContent: string;
@@ -45,6 +50,15 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       ListItem,
       BulletList,
       OrderedList,
+      Underline,
+      Link.configure({
+        openOnClick: true,
+        autolink: true,
+        linkOnPaste: true,
+      }),
+      Highlight.configure({
+        multicolor: true,
+      }),
     ],
     content: editorContent,
     onUpdate: ({ editor }) => {
@@ -67,6 +81,8 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
     }
   };
 
+  const highlightColors = ["yellow", "pink", "lightblue", "lightgreen"];
+
   const toolbarButtons = [
     {
       icon: <RiBold className="size-5" />,
@@ -80,28 +96,41 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       disabled: !editor.can().chain().focus().toggleItalic().run(),
     },
     {
+      icon: <BsTypeUnderline className="size-5" />,
+      onClick: () => editor.chain().focus().toggleUnderline().run(),
+      isActive: editor.isActive("underline"),
+      disabled: !editor.can().chain().focus().toggleUnderline().run(),
+    },
+    {
+      icon: <RiStrikethrough className="size-5" />,
+      onClick: () => editor.chain().focus().toggleStrike().run(),
+      isActive: editor.isActive("strike"),
+      disabled: !editor.can().chain().focus().toggleStrike().run(),
+    },
+    {
       icon: <LuHeading1 className="size-5" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
       isActive: editor.isActive("heading", { level: 1 }),
-      disabled: !editor.can().chain().focus().run(),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 1 }).run(),
     },
     {
       icon: <LuHeading2 className="size-5" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
       isActive: editor.isActive("heading", { level: 2 }),
-      disabled: !editor.can().chain().focus().run(),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 2 }).run(),
     },
+
     {
       icon: <LuHeading3 className="size-5" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
       isActive: editor.isActive("heading", { level: 3 }),
-      disabled: !editor.can().chain().focus().run(),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 3 }).run(),
     },
     {
       icon: <LuHeading4 className="size-5" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
       isActive: editor.isActive("heading", { level: 4 }),
-      disabled: !editor.can().chain().focus().run(),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 4 }).run(),
     },
     {
       icon: <RiStrikethrough className="size-5" />,
@@ -116,11 +145,42 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       disabled: !editor.can().chain().focus().toggleCode().run(),
     },
     {
+      icon: <MdOutlineHighlight className="size-5" />,
+      onClick: () => editor.chain().focus().toggleHighlight().run(),
+      isActive: editor.isActive("highlight", { color: "#ffc078" }),
+      disabled: !editor.can().chain().focus().toggleHighlight().run(),
+    },
+    {
       icon: <LuQuote className="size-5" />,
       onClick: () => editor.chain().focus().toggleBlockquote().run(),
       isActive: editor.isActive("blockquote"),
       disabled: !editor.can().chain().focus().toggleBlockquote().run(),
     },
+    {
+      icon: <RiLink className="size-5" />,
+      onClick: () => {
+        const url = prompt("Enter the URL:");
+        if (url) {
+          editor.chain().focus().setLink({ href: url }).run();
+        }
+      },
+      isActive: editor.isActive("link"),
+      disabled: !editor
+        .can()
+        .chain()
+        .focus()
+        .setLink({ href: "https://example.com" })
+        .run(),
+    },
+    {
+      icon: <RiLinkUnlink className="size-5" />,
+      onClick: () => {
+        editor.chain().focus().unsetLink().run();
+      },
+      isActive: false,
+      disabled: !editor.can().chain().focus().unsetLink().run(),
+    },
+
     {
       icon: <MdImage className="size-5" />,
       onClick: handleImageUpload,
@@ -135,7 +195,7 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       icon: <RiListOrdered2 className="size-5" />,
       onClick: () => editor.chain().focus().toggleOrderedList().run(),
       isActive: editor.isActive("orderedList"),
-      disabled: !editor.can().chain().focus().toggleOrderedList().run(),
+      // disabled: !editor.can().chain().focus().toggleOrderedList().run(),
     },
     {
       icon: <AiOutlineUndo className="size-5" />,
@@ -152,9 +212,9 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
   ];
 
   return (
-    <div className="flex flex-col justify-stretch min-h-[200px] border rounded">
+    <div className="flex flex-col justify-stretch min-h-fit border rounded">
       {/* Toolbar */}
-      <div className="flex items-center gap-2 p-2 bg-gray-100 border-b">
+      <div className="flex items-center flex-wrap gap-2 p-2 bg-gray-100 border-b">
         {toolbarButtons.map((button, index) => (
           <button
             key={index}
