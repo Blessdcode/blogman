@@ -81,7 +81,6 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
     }
   };
 
-  const highlightColors = ["yellow", "pink", "lightblue", "lightgreen"];
 
   const toolbarButtons = [
     {
@@ -217,6 +216,7 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       <div className="flex items-center flex-wrap gap-2 p-2 bg-gray-100 border-b">
         {toolbarButtons.map((button, index) => (
           <button
+            type="button"
             key={index}
             onClick={button.onClick}
             disabled={button.disabled}
