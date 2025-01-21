@@ -38,10 +38,12 @@ export default async function Home() {
               id={post.id}
               title={post.title}
               content={post.content}
-              author={post.author}
+              author={post.author.name}
               imageUrl={post.imageUrl}
               links={post.links || []}
               category={post.catName}
+              date={post.createdAt}
+            
             />
           ))}
       </div>

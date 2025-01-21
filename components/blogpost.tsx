@@ -5,10 +5,17 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FaCalendarAlt, MdOutlineArrowOutward } from "@/utils/icons";
 import Image from "next/image";
 import Link from "next/link";
-import { TPost } from "@/types/types";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
+interface PostProps {
+  id: string;
+  author: string;
+  date: string;
+  imageUrl?: string;
+  title: string;
+  content: string;
+  links?: string[];
+  category?: string;
+}
 
 const BlogPost = async ({
   id,
@@ -18,20 +25,26 @@ const BlogPost = async ({
   imageUrl,
   links,
   category,
-}: TPost) => {
-const authorName = Array.isArray(author)
-  ? author[0]?.name
-    : author?.name || author;
-  
-  const authorInitial = author.name ? author.name.charAt(0).toUpperCase() : "A";
+  date,
+}: PostProps) => {
+  const authorInitial = author ? author.charAt(0).toUpperCase() : "A";
 
   const truncatedContent =
     content?.length > 200 ? content.substring(0, 200) + "..." : content || "";
 
+  const dateObject = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  };
+
+  const formattedDate = dateObject.toLocaleDateString("en-US", options);
+
   return (
     <Card className="w-full md:max-w-[400px] md:w-fit  hover:shadow-lg transition-shadow duration-300 ">
       {/* Image Section */}
-      <div className="flex justify-center items-start flex-col flex-wrap ">
+      <div className="flex justify-center items-start flex-col flex-wrap">
         <div className="relative w-full h-48 md:h-full min-h-[200px] overflow-hidden">
           {imageUrl ? (
             <Image
@@ -58,12 +71,12 @@ const authorName = Array.isArray(author)
         </div>
 
         {/* Content Section */}
-        <div className="flex flex-col justify-between p-6">
+        <div className="p-4 flex flex-col justify-between h-full w-full ">
           <div>
             <CardHeader className="p-0 mb-4">
               <CardTitle className="text-xl font-bold mb-2 line-clamp-2 flex items-center justify-between">
                 {title || "Untitled Post"}
-                <Link href={`/post/${id}`}>
+                <Link href={`/posts/${id}`}>
                   <MdOutlineArrowOutward size={26} />
                 </Link>
               </CardTitle>
@@ -81,10 +94,10 @@ const authorName = Array.isArray(author)
                     <Badge
                       key={index}
                       variant="primary"
-                      className="flex items-center gap-1">
+                      className="flex items-center gap-1 truncate max-w-fit">
                       {/* <Link2Icon className="w-3 h-3" /> */}
                       <Link href={`${link}`}>
-                        <span className="truncate max-w-[150px]">{link}</span>
+                        <span className="truncate max-w-[50px]">{link}</span>
                       </Link>
                     </Badge>
                   ))}
@@ -99,10 +112,10 @@ const authorName = Array.isArray(author)
               <AvatarFallback>{authorInitial}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-medium">{authorName}</p>
+              <p className="font-medium">{author}</p>
               <div className="flex items-center text-sm text-gray-500">
                 <FaCalendarAlt className="w-4 h-4 mr-1" />
-                <time>Posted today</time>
+                <time>Posted {formattedDate}</time>
               </div>
             </div>
           </div>

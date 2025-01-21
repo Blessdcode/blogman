@@ -9,9 +9,13 @@ export type TPost = {
   title: string;
   content: string;
   imageUrl?: string;
-  author: string;
   links: null | string[];
   category?: string;
   authorEmail?: string;
   name?: string;
+  catName?: string;
+  createdAt: string;
+  author: {
+    name: string;
+  };
 };
