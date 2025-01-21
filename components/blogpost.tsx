@@ -5,37 +5,33 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { FaCalendarAlt, MdOutlineArrowOutward } from "@/utils/icons";
 import Image from "next/image";
 import Link from "next/link";
+import { TPost } from "@/types/types";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-interface BlogPostProp {
-  id: string;
-  author: string;
-  title: string;
-  content: string;
-  links?: string[];
-  category?: string;
-  imageUrl?: string;
-}
 
-const BlogPost = ({
+const BlogPost = async ({
   id,
   title,
   content,
-  author = "Anonymous", 
+  author = "Anonymous",
   imageUrl,
   links,
   category,
-}: BlogPostProp) => {
-  // Get first letter of author name for avatar fallback, with null check
-  const authorInitial = author ? author.charAt(0).toUpperCase() : "A";
+}: TPost) => {
+const authorName = Array.isArray(author)
+  ? author[0]?.name
+    : author?.name || author;
+  
+  const authorInitial = author.name ? author.name.charAt(0).toUpperCase() : "A";
 
-  // Truncate content for preview
   const truncatedContent =
     content?.length > 200 ? content.substring(0, 200) + "..." : content || "";
 
   return (
-    <Card className="w-full md:w-[400px] overflow-hidden hover:shadow-lg transition-shadow duration-300 ">
+    <Card className="w-full md:max-w-[400px] md:w-fit  hover:shadow-lg transition-shadow duration-300 ">
       {/* Image Section */}
-      <div className="flex justify-center items-start flex-col ">
+      <div className="flex justify-center items-start flex-col flex-wrap ">
         <div className="relative w-full h-48 md:h-full min-h-[200px] overflow-hidden">
           {imageUrl ? (
             <Image
@@ -65,7 +61,7 @@ const BlogPost = ({
         <div className="flex flex-col justify-between p-6">
           <div>
             <CardHeader className="p-0 mb-4">
-              <CardTitle className="text-2xl font-bold mb-2 line-clamp-2 flex items-center justify-between">
+              <CardTitle className="text-xl font-bold mb-2 line-clamp-2 flex items-center justify-between">
                 {title || "Untitled Post"}
                 <Link href={`/post/${id}`}>
                   <MdOutlineArrowOutward size={26} />
@@ -103,7 +99,7 @@ const BlogPost = ({
               <AvatarFallback>{authorInitial}</AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-medium">{author}</p>
+              <p className="font-medium">{authorName}</p>
               <div className="flex items-center text-sm text-gray-500">
                 <FaCalendarAlt className="w-4 h-4 mr-1" />
                 <time>Posted today</time>

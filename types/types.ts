@@ -12,4 +12,6 @@ export type TPost = {
   author: string;
   links: null | string[];
   category?: string;
+  authorEmail?: string;
+  name?: string;
 };

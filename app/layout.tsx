@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import Navigation from "@/components/navagiation";
-// import CategoriesList from "@/components/categoriesList";
+import { Toaster } from "react-hot-toast";
 import { NextAuthProvider } from "@/components/provider";
 
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"] });
@@ -24,6 +24,7 @@ export default function RootLayout({
           <NextAuthProvider>
             <Navigation />
             {children}
+            <Toaster />
           </NextAuthProvider>
         </div>
       </body>

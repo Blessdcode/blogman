@@ -1,15 +1,63 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import RichTextEditor from "./rich-text-editor";
 import { Button } from "./ui/button";
+import toast from "react-hot-toast";
+import { TCategories } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 const CreatePost = () => {
   const [content, setContent] = useState<string>("");
   const [title, setTitle] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [categories, setCategories] = useState<TCategories[]>([]);
+  const [imageUrl, setImageUrl] = useState<string>("");
+  const [publicId, setPublicId] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await fetch("/api/categories");
+      const catName = await res.json();
+      setCategories(catName);
+    };
+    fetchCategories();
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!title || !content || !selectedCategory) {
+      return toast.error("Please fill all fields");
+    }
+
+    try {
+      const res = await fetch("/api/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          content,
+          category: selectedCategory,
+          imageUrl,
+          publicId,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Post created successfully");
+        router.push("/");
+        router.refresh();
+      } else {
+        toast.error("An error occurred, please try again");
+      }
+    } catch (error) {
+      toast.error("An error occurred, please try again");
+      console.log(error);
+    }
   };
 
   return (
@@ -62,9 +110,12 @@ const CreatePost = () => {
           </button>
         )}
 
+       
+         */}
+        <RichTextEditor editorContent={content} onChange={setContent} />
         <select
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="p-3 rounded-md border appearance-none">
+          className="p-3 rounded-md border appearance-none text-darkBlue">
           <option value="">Select A Category</option>
           {categories &&
             categories.map((category) => (
@@ -72,9 +123,8 @@ const CreatePost = () => {
                 {category.catName}
               </option>
             ))}
-        </select> */}
+        </select>
 
-        <RichTextEditor editorContent={content} onChange={setContent} />
         <Button
           className="bg-transparent border border-white text-white hover:bg-white hover:text-darkBlue"
           type="submit">
