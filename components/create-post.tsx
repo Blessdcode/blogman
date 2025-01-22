@@ -6,6 +6,11 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 import { TCategories } from "@/types/types";
 import { useRouter } from "next/navigation";
+import {
+  CldUploadButton,
+  CloudinaryUploadWidgetResults,
+} from "next-cloudinary";
+import Image from "next/image";
 
 const CreatePost = () => {
   const [content, setContent] = useState<string>("");
@@ -25,6 +30,40 @@ const CreatePost = () => {
     };
     fetchCategories();
   }, []);
+
+
+  const handleImageUpload = (result: CloudinaryUploadWidgetResults) => {
+    const info = result.info as object;
+
+    if ("secure_url" in info && "public_id" in info) {
+      const url = info.secure_url as string;
+      const public_id = info.public_id as string;
+      setImageUrl(url);
+      setPublicId(public_id);
+      console.log("url: ", url);
+      console.log("public_id: ", public_id);
+    }
+  };
+
+    const removeImage = async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      try {
+        const res = await fetch("api/removeImage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ publicId }),
+        });
+
+        if (res.ok) {
+          setImageUrl("");
+          setPublicId("");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,12 +110,12 @@ const CreatePost = () => {
           className="px-4 py-2 border border-slate-300 rounded-md outline text-darkBlue"
         />
 
-        {/* <CldUploadButton
+        <CldUploadButton
           uploadPreset={process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET}
           className={`h-48 border-2 mt-4 border-dotted grid place-items-center bg-slate-100 rounded-md relative ${
             imageUrl && "pointer-events-none"
           }`}
-          onUpload={handleImageUpload}>
+          onSuccess={handleImageUpload}>
           <div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -110,9 +149,7 @@ const CreatePost = () => {
             Remove Image
           </button>
         )}
-
-       
-         */}
+        
         <RichTextEditor editorContent={content} onChange={setContent} />
         <select
           onChange={(e) => setSelectedCategory(e.target.value)}

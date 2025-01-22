@@ -46,14 +46,14 @@ const BlogPost = async ({
     <Card className="w-full md:max-w-[400px] md:w-fit  hover:shadow-lg transition-shadow duration-300 ">
       {/* Image Section */}
       <div className="flex justify-center items-start flex-col flex-wrap">
-        <div className="relative w-full h-48 md:h-full min-h-[200px] overflow-hidden">
+        <div className="relative w-full  min-h-[60px] overflow-hidden">
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={title}
               width={500}
               height={500}
-              className="object-cover w-full h-full hover:scale-150 transition-all duration-300 cursor-pointer"
+              className="object-cover w-full  hover:scale-150 transition-all duration-300 cursor-pointer"
             />
           ) : (
             <Image
@@ -61,7 +61,7 @@ const BlogPost = async ({
               width={500}
               height={500}
               alt="placeholder"
-              className="object-cover w-full h-full bg-gray-100"
+              className="object-cover w-full  bg-gray-100"
             />
           )}
           {category && (

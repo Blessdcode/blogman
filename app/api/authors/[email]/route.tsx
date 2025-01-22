@@ -6,7 +6,8 @@ export async function GET(
   { params }: { params: { email: string } }
 ) {
   try {
-    const email = params.email;
+    const { email } = params;
+     console.log("Email received:", email);
     const posts = await prisma.user.findUnique({
       where: { email },
       include: {

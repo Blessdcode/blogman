@@ -67,7 +67,7 @@ const Navigation = () => {
         {/* desktop */}
         <div className="hidden md:flex space-x-7  px-6 relative">
           <Link
-            href="/post"
+            href="/posts"
             className="hover:text-lightBlue flex items-center justify-center">
             <div className="flex items-center">
               <FaPenAlt className="mr-1" size={20} />
@@ -187,7 +187,7 @@ const Navigation = () => {
           menuOpen ? "transform translate-x-0" : "transform -translate-x-full"
         }`}>
         <Link
-          href="/post"
+          href="/posts"
           className="hover:text-lightBlue flex items-center justify-center mb-8 text-2xl"
           onClick={() => setMenuOpen(false)}>
           <FaPenAlt className="mr-1" size={20} />

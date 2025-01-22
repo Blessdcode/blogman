@@ -96,7 +96,7 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
       </div>
 
       {/* Content Section */}
-      <div className="w-full max-w-4xl mt-6 p-6 bg-white shadow-md rounded-lg">
+      <div className="w-full max-w-4xl mt-6 p-6 bg-white shadow-md rounded-lg text-black">
         <SafeContent content={post.content || ""} />
       </div>
 

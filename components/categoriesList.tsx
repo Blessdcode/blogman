@@ -20,6 +20,7 @@ const getCategories = async (): Promise<TCategories[] | null> => {
 
 const CategoriesList = async () => {
   const Categories = await getCategories();
+  console.log(Categories);
   return (
     <div className="flex items-center flex-wrap gap-4 p-1 md:p-0 md:space-x-6 ">
       <Link
