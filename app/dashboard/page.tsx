@@ -11,7 +11,10 @@ const getPosts = async (email: string) => {
     const { posts } = await res.json();
     return posts;
   } catch (error) {
+    console.log(error, "something went wrong")
+    
     return null;
+
   }
 };
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import cloudinary from "cloudinary";
 import { NextResponse } from "next/server";
 
