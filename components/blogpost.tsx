@@ -6,6 +6,9 @@ import { FaCalendarAlt, MdOutlineArrowOutward } from "@/utils/icons";
 import Image from "next/image";
 import Link from "next/link";
 import SafeContent from "@/utils/SafeContent";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import DeleteButton from "./deleteButton";
 
 interface PostProps {
   id: string;
@@ -16,6 +19,7 @@ interface PostProps {
   content: string;
   links?: string[];
   category?: string;
+  authorEmail?: string;
 }
 
 const BlogPost = async ({
@@ -27,11 +31,17 @@ const BlogPost = async ({
   links,
   category,
   date,
+  authorEmail,
 }: PostProps) => {
   const authorInitial = author ? author.charAt(0).toUpperCase() : "A";
 
   const truncatedContent =
     content?.length > 200 ? content.substring(0, 200) + "..." : content || "";
+
+  const session = await getServerSession(authOptions);
+
+  const isEditable = session && session?.user?.email === authorEmail;
+  console.log(isEditable);
 
   const dateObject = new Date(date);
   const options: Intl.DateTimeFormatOptions = {
@@ -46,14 +56,14 @@ const BlogPost = async ({
     <Card className="w-full md:max-w-[400px] md:w-fit  hover:shadow-lg transition-shadow duration-300 ">
       {/* Image Section */}
       <div className="flex justify-center items-start flex-col flex-wrap">
-        <div className="relative w-full  min-h-[60px] overflow-hidden">
+        <div className="relative w-full flex-1 max-h-[550px] overflow-hidden">
           {imageUrl ? (
             <Image
               src={imageUrl}
               alt={title}
               width={500}
               height={500}
-              className="object-cover w-full  hover:scale-150 transition-all duration-300 cursor-pointer"
+              className="object-cover w-full h-42  hover:scale-150 transition-all duration-300 cursor-pointer"
             />
           ) : (
             <Image
@@ -61,7 +71,7 @@ const BlogPost = async ({
               width={500}
               height={500}
               alt="placeholder"
-              className="object-cover w-full  bg-gray-100"
+              className="object-cover w-full h-42 bg-gray-100 "
             />
           )}
           {category && (
@@ -86,7 +96,7 @@ const BlogPost = async ({
             <CardContent className="p-0">
               <p className="text-gray-600 mb-4 line-clamp-3">
                 {/* {truncatedContent} */}
-                <SafeContent content={truncatedContent|| ""} />
+                <SafeContent content={truncatedContent || ""} />
               </p>
 
               {/* Links Section */}
@@ -121,6 +131,13 @@ const BlogPost = async ({
               </div>
             </div>
           </div>
+
+          {isEditable && (
+            <div className="flex gap-3 font-bold py-2 px-4 rounded-md  w-fit ">
+              {/* <Link href={`/edit-post/${id}`}>Edit</Link> */}
+              <DeleteButton id={id} />
+            </div>
+          )}
         </div>
       </div>
     </Card>

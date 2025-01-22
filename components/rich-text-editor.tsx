@@ -12,6 +12,8 @@ import Image from "@tiptap/extension-image";
 import Highlight from "@tiptap/extension-highlight";
 import Link from "@tiptap/extension-link";
 import Underline from "@tiptap/extension-underline";
+import HardBreak from '@tiptap/extension-hard-break'
+
 
 import {
   RiBold,
@@ -50,6 +52,7 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       ListItem,
       BulletList,
       OrderedList,
+      HardBreak,
       Underline,
       Link.configure({
         openOnClick: true,
@@ -132,11 +135,18 @@ const RichTextEditor = ({ editorContent, onChange }: EditorProps) => {
       disabled: !editor.can().chain().focus().toggleHeading({ level: 4 }).run(),
     },
     {
-      icon: <RiStrikethrough className="size-5" />,
-      onClick: () => editor.chain().focus().toggleStrike().run(),
-      isActive: editor.isActive("strike"),
-      disabled: !editor.can().chain().focus().toggleStrike().run(),
+      icon: <LuHeading4 className="size-5" />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
+      isActive: editor.isActive("heading", { level: 5 }),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 5 }).run(),
     },
+    {
+      icon: <LuHeading4 className="size-5" />,
+      onClick: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
+      isActive: editor.isActive("heading", { level: 6 }),
+      disabled: !editor.can().chain().focus().toggleHeading({ level: 6 }).run(),
+    },
+    
     {
       icon: <RiCodeSSlashLine className="size-5" />,
       onClick: () => editor.chain().focus().toggleCode().run(),
