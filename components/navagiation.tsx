@@ -62,7 +62,7 @@ const Navigation = () => {
           href="/"
           className="flex items-center bg-white text-darkBlue text-lg rounded-full p-2 hover:shadow-2xl hover:text-lightBlue font-semibold">
           <FaHome className="mr-2" size={20} />
-          BlogMan
+          BlogNews
         </Link>
         {/* desktop */}
         <div className="hidden md:flex space-x-7  px-6 relative">

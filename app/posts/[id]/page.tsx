@@ -78,9 +78,9 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
         )}
 
         <div className="absolute bottom-4 left-4">
-          {post.category && (
+          {post.catName && (
             <Badge className="bg-darkBlue text-white px-3 py-1">
-              {post.category}
+              {post.catName}
             </Badge>
           )}
         </div>

@@ -95,7 +95,7 @@ const EditPostForm = ({ post }: { post: TPost }) => {
       });
 
       if (res.ok) {
-        toast.success("Post created successfully");
+        toast.success("Post updated successfully");
         router.push("/");
         router.refresh();
       } else {

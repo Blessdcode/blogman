@@ -8,8 +8,8 @@ import { NextAuthProvider } from "@/components/provider";
 const ubuntu = Ubuntu({ subsets: ["latin"], weight: ["400"] });
 
 export const metadata: Metadata = {
-  title: "blogman",
-  description: "the best place to get the best blog post",
+  title: "blognews",
+  description: "the best place to get the best blog news around the world",
 };
 
 export default function RootLayout({
