@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import RichTextEditor from "./rich-text-editor";
 import { Button } from "./ui/button";
 import toast from "react-hot-toast";
-import { TCategories } from "@/types/types";
+import { TCategories, TPost } from "@/types/types";
 import { useRouter } from "next/navigation";
 import {
   CldUploadButton,
@@ -16,13 +16,13 @@ import Image from "next/image";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/utils/authOptions";
 
-const CreatePost = () => {
-  const [content, setContent] = useState<string>("");
-  const [title, setTitle] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("");
+const EditPostForm = ({ post }: { post: TPost }) => {
+  const [content, setContent] = useState<string>(post.content || "");
+  const [title, setTitle] = useState(post.title || "");
+  const [selectedCategory, setSelectedCategory] = useState(post.catName ||"");
   const [categories, setCategories] = useState<TCategories[]>([]);
-  const [imageUrl, setImageUrl] = useState<string>("");
-  const [publicId, setPublicId] = useState("");
+  const [imageUrl, setImageUrl] = useState<string>(post.imageUrl || "");
+  const [publicId, setPublicId] = useState(post.publicId || "");
 
   const router = useRouter();
 
@@ -73,7 +73,6 @@ const CreatePost = () => {
     e.preventDefault();
     if (!session) {
       toast.success("Please login to create a post.");
- 
     }
 
     if (!title || !content || !selectedCategory) {
@@ -81,8 +80,8 @@ const CreatePost = () => {
     }
 
     try {
-      const res = await fetch("/api/posts", {
-        method: "POST",
+      const res = await fetch(`/api/posts/${post.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -115,6 +114,7 @@ const CreatePost = () => {
           // value={title}
           onChange={(e) => setTitle(e.target.value)}
           type="text"
+          value={title}
           placeholder="Title"
           className="px-4 py-2 border border-slate-300 rounded-md outline text-darkBlue"
         />
@@ -175,11 +175,11 @@ const CreatePost = () => {
         <Button
           className="bg-transparent border border-white text-white hover:bg-white hover:text-darkBlue"
           type="submit">
-          Create Post
+          Edit Post
         </Button>
       </form>
     </div>
   );
 };
 
-export default CreatePost;
+export default EditPostForm;

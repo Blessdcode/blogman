@@ -64,7 +64,7 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
             src={post.imageUrl}
             alt={post.title}
             width={800}
-            height={400}
+            height={600}
             className="object-cover w-full h-64"
           />
         ) : (
@@ -72,7 +72,7 @@ const DetailPage = async ({ params }: { params: { id: string } }) => {
             src="/static/images/thumbnail.png"
             alt={post.title}
             width={800}
-            height={400}
+            height={600}
             className="object-cover w-full h-64"
           />
         )}

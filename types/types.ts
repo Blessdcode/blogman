@@ -9,6 +9,7 @@ export type TPost = {
   title: string;
   content: string;
   imageUrl?: string;
+  publicId?:string
   links: null | string[];
   category?: string;
   authorEmail?: string;

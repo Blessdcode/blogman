@@ -7,8 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import SafeContent from "@/utils/SafeContent";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import DeleteButton from "./deleteButton";
+import { authOptions } from "@/app/utils/authOptions";
 
 interface PostProps {
   id: string;
@@ -133,9 +134,11 @@ const BlogPost = async ({
           </div>
 
           {isEditable && (
-            <div className="flex gap-3 font-bold py-2 px-4 rounded-md  w-fit ">
-              {/* <Link href={`/edit-post/${id}`}>Edit</Link> */}
-              <DeleteButton id={id} />
+            <div className="flex items-center justify-between gap-3 font-bold py-2 px-4 rounded-md  w-fit ">
+              <Link href={`/edit-post/${id}`}>Edit</Link>
+              <>
+                <DeleteButton id={id} />
+              </>
             </div>
           )}
         </div>
