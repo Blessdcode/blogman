@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { getServerSession } from "next-auth/next";
-// import { authOptions } from "../api/auth/[...nextauth]/route";
+import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import BlogPost from "@/components/blogpost";
 import { TPost } from "@/types/types";
-import { authOptions } from "../utils/authOptions";
+// import { authOptions } from "../utils/authOptions";
 
 const getPosts = async (email: string) => {
   try {

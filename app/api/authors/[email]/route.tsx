@@ -1,27 +1,35 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-interface RouteParams {
-  email: string;
-}
-
 export async function GET(
   request: NextRequest,
-  context: { params: RouteParams }
+  context: { params: { email: string } }
 ) {
   try {
-    const { email } = context.params;
+    const { params } = context; // Extract params from context
+    const { email } = params; // Destructure email from params
     console.log("Email received:", email);
-    const posts = await prisma.user.findUnique({
+
+    const userWithPosts = await prisma.user.findUnique({
       where: { email },
       include: {
         post: { orderBy: { createdAt: "desc" } },
       },
     });
 
-    return NextResponse.json(posts);
+    if (!userWithPosts) {
+      return NextResponse.json(
+        { message: "User not found", posts: [] },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ posts: userWithPosts.post });
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: "Could not fetch post" });
+    console.error("Error fetching posts:", error);
+    return NextResponse.json(
+      { message: "Could not fetch posts" },
+      { status: 500 }
+    );
   }
 }
