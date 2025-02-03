@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
+// import { authOptions } from "../auth/[...nextauth]/route";
 import prisma from "@/lib/prisma";
-// import { authOptions } from "@/app/utils/authOptions";
+import { authOptions } from "@/app/utils/authOptions";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -13,7 +13,7 @@ export async function POST(req: Request) {
   const { title, content, imageUrl, publicId, author, category, links } =
     await req.json();
 
-  const authorEmail = session?.user?.email as string;
+  // const authorEmail = session?.user?.email as string;
 
   if (!title || !content) {
     return NextResponse.json(
@@ -30,9 +30,9 @@ export async function POST(req: Request) {
         imageUrl,
         publicId,
         author,
-        catName: category,
+         category,
         links,
-        authorEmail,
+        // authorEmail,
       },
     });
     console.log(newPost, "post created");

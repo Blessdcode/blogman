@@ -12,10 +12,10 @@ import {
 } from "next-cloudinary";
 import Image from "next/image";
 
-// import { authOptions } from "../utils/authOptions";
+import { authOptions } from "../utils/authOptions";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-// import { authOptions } from "@/app/utils/authOptions";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 const CreatePost = () => {
   const [content, setContent] = useState<string>("");

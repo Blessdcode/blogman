@@ -7,9 +7,9 @@ import Image from "next/image";
 import Link from "next/link";
 import SafeContent from "@/utils/SafeContent";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import DeleteButton from "./deleteButton";
-// import { authOptions } from "@/app/utils/authOptions";
+import { authOptions } from "@/app/utils/authOptions";
 
 interface PostProps {
   id: string;

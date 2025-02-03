@@ -13,7 +13,8 @@ import {
 import Image from "next/image";
 
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/utils/authOptions";
+// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 const EditPostForm = ({ post }: { post: TPost }) => {
   const [content, setContent] = useState<string>(post.content || "");
