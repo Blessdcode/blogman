@@ -1,12 +1,13 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
+// Use the correct type for the context parameter in Next.js app router
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { catName: string } }
+  request: NextRequest,
+  context: { params: { catName: string } }
 ) {
   try {
-    const { catName } = params;
+    const { catName } = context.params;
 
     const category = await prisma.category.findUnique({
       where: { catName },
@@ -27,7 +28,7 @@ export async function GET(
 
     return NextResponse.json(category);
   } catch (error) {
-    console.error("Error fetching category:", error);
+    console.error("Error:", error);
     return NextResponse.json(
       { message: "Could not fetch category" },
       { status: 500 }
