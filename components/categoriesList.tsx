@@ -1,44 +1,39 @@
-import React from "react";
-import Link from "next/link";
-// import { Categories } from "@/data/data";
-import { TCategories } from "@/types/types";
+import prisma from "@/lib/prisma";
+import { NextRequest, NextResponse } from "next/server";
 
-const getCategories = async (): Promise<TCategories[] | null> => {
+type Params = {
+  params: {
+    catName: string;
+  };
+};
+
+export async function GET(request: NextRequest, { params }: Params) {
   try {
-    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/categories`);
+    const category = await prisma.category.findUnique({
+      where: {
+        catName: params.catName,
+      },
+      include: {
+        posts: {
+          include: { author: true },
+          orderBy: { createdAt: "asc" },
+        },
+      },
+    });
 
-    if (res.ok) {
-      const categories = await res.json();
-      console.log(categories, "categories");
-      return categories;
+    if (!category) {
+      return NextResponse.json(
+        { message: "Category not found" },
+        { status: 404 }
+      );
     }
+
+    return NextResponse.json(category);
   } catch (error) {
-    console.log(error);
+    console.error("Error:", error);
+    return NextResponse.json(
+      { message: "Could not fetch category" },
+      { status: 500 }
+    );
   }
-  return null;
-};
-
-const CategoriesList = async () => {
-  const Categories = await getCategories();
-  console.log(Categories);
-  return (
-    <div className="flex items-center flex-wrap gap-4 p-1 md:p-0 md:space-x-6 ">
-      <Link
-        href={`/`}
-        className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all">
-        All
-      </Link>
-      {Categories &&
-        Categories.map((category) => (
-          <Link
-            key={category.id}
-            href={`/categories/${category.catName}`}
-            className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all text-base md:text-xl">
-            {category.catName}
-          </Link>
-        ))}
-    </div>
-  );
-};
-
-export default CategoriesList;
+}
