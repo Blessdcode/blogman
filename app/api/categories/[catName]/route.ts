@@ -1,13 +1,16 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-// Use the correct type for the context parameter in Next.js app router
+// For Next.js dynamic routes in App Router
 export async function GET(
   request: NextRequest,
-  context: { params: { catName: string } }
+  context: { params: Promise<{ catName: string }> | { catName: string } }
 ) {
   try {
-    const { catName } = context.params;
+    // Handle both Promise and non-Promise params
+    const params =
+      "then" in context.params ? await context.params : context.params;
+    const catName = params.catName;
 
     const category = await prisma.category.findUnique({
       where: { catName },

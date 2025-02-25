@@ -1,40 +1,44 @@
-import prisma from "@/lib/prisma";
-import { NextRequest, NextResponse } from "next/server";
+import React from "react";
+import Link from "next/link";
+// import { Categories } from "@/data/data";
+import { TCategories } from "@/types/types";
 
-// For Next.js dynamic routes in App Router
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ catName: string }> | { catName: string } }
-) {
+const getCategories = async (): Promise<TCategories[] | null> => {
   try {
-    // Handle both Promise and non-Promise params
-    const params =
-      "then" in context.params ? await context.params : context.params;
-    const catName = params.catName;
+    const res = await fetch(`${process.env.NEXTAUTH_URL}/api/categories/`);
 
-    const category = await prisma.category.findUnique({
-      where: { catName },
-      include: {
-        posts: {
-          include: { author: true },
-          orderBy: { createdAt: "asc" },
-        },
-      },
-    });
-
-    if (!category) {
-      return NextResponse.json(
-        { message: "Category not found" },
-        { status: 404 }
-      );
+    if (res.ok) {
+      const categories = await res.json();
+      console.log(categories, "categories");
+      return categories;
     }
-
-    return NextResponse.json(category);
   } catch (error) {
-    console.error("Error:", error);
-    return NextResponse.json(
-      { message: "Could not fetch category" },
-      { status: 500 }
-    );
+    console.log(error);
   }
-}
+  return null;
+};
+
+const CategoriesList = async () => {
+  const Categories = await getCategories();
+  console.log(Categories);
+  return (
+    <div className="flex items-center flex-wrap gap-4 p-1 md:p-0 md:space-x-6 ">
+      <Link
+        href={`/`}
+        className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all">
+        All
+      </Link>
+      {Categories &&
+        Categories.map((category) => (
+          <Link
+            key={category.id}
+            href={`/categories/${category.catName}`}
+            className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all text-base md:text-xl">
+            {category.catName}
+          </Link>
+        ))}
+    </div>
+  );
+};
+
+export default CategoriesList;
