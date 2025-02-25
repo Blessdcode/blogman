@@ -1,18 +1,19 @@
 import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 
-type Params = {
-  params: {
-    catName: string;
-  };
-};
-
-export async function GET(request: NextRequest, { params }: Params) {
+// For Next.js dynamic routes in App Router
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ catName: string }> | { catName: string } }
+) {
   try {
+    // Handle both Promise and non-Promise params
+    const params =
+      "then" in context.params ? await context.params : context.params;
+    const catName = params.catName;
+
     const category = await prisma.category.findUnique({
-      where: {
-        catName: params.catName,
-      },
+      where: { catName },
       include: {
         posts: {
           include: { author: true },
