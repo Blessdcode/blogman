@@ -1,12 +1,12 @@
 import prisma from "@/lib/prisma";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-  req: Request,
-  { params }: { params: { catName: string } }
+  req: NextRequest,
+  params: Promise<{ catName: string }>
 ) {
   try {
-    const catName = params.catName;
+    const { catName } = await params;
     const posts = await prisma.category.findUnique({
       where: { catName },
       include: {
