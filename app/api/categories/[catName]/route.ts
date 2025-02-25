@@ -3,20 +3,34 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  params: Promise<{ catName: string }>
+  { params }: { params: { catName: string } }
 ) {
   try {
-    const { catName } = await params;
-    const posts = await prisma.category.findUnique({
+    const { catName } = params;
+
+    const category = await prisma.category.findUnique({
       where: { catName },
       include: {
-        posts: { include: { author: true }, orderBy: { createdAt: "asc" } },
+        posts: {
+          include: { author: true },
+          orderBy: { createdAt: "asc" },
+        },
       },
     });
 
-    return NextResponse.json(posts);
+    if (!category) {
+      return NextResponse.json(
+        { message: "Category not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(category);
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ message: "Could not fetch post" });
+    console.error("Error fetching category:", error);
+    return NextResponse.json(
+      { message: "Could not fetch category" },
+      { status: 500 }
+    );
   }
 }
