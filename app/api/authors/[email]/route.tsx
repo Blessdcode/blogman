@@ -1,13 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
-interface NextContext {
-  params: { email: string };
-}
+// interface NextContext {
+//   params: { email: string };
+// }
 
-export async function GET(request: NextRequest, { params }: NextContext) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ email: string }> }
+) {
   try {
-    const { email } = params;
+    const { email } = await params;
     console.log("Email received:", email);
 
     const userWithPosts = await prisma.user.findUnique({

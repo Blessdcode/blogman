@@ -1,11 +1,11 @@
 import React from "react";
 import CreatePost from "@/components/create-post";
 import HeadingModel from "@/components/heading";
-// import { authOptions } from "../utils/authOptions";
+import { authOptions } from "../utils/authOptions";
 import { getServerSession } from "next-auth";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-import { authOptions } from "../api/auth/[...nextauth]/route";
+// import { authOptions } from "../api/auth/[...nextauth]/route";
 
 const page = () => {
   const session = getServerSession(authOptions);
