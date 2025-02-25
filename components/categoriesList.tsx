@@ -23,11 +23,11 @@ const CategoriesList = async () => {
   console.log(Categories);
   return (
     <div className="flex items-center flex-wrap gap-4 p-1 md:p-0 md:space-x-6 ">
-      <Link
+      {/* <Link
         href={`/`}
         className="border p-2 rounded-lg hover:bg-white hover:text-darkBlue transition-all">
         All
-      </Link>
+      </Link> */}
       {Categories &&
         Categories.map((category) => (
           <Link
