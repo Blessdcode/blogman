@@ -23,14 +23,14 @@ export async function POST(
 
 export async function PUT(
   req: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const id = params.id;
+  const {id} = await params;
   const { title, content, imageUrl, publicId, author, category, links } =
     await req.json();
 
