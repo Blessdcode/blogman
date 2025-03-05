@@ -5,7 +5,6 @@ import { authOptions } from "../utils/authOptions";
 import { getServerSession } from "next-auth";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
-// import { authOptions } from "../api/auth/[...nextauth]/route";
 
 const page = () => {
   const session = getServerSession(authOptions);
