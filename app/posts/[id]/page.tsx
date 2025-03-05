@@ -25,12 +25,12 @@ const fetchPost = async (): Promise<TPost[] | null> => {
   return null;
 };
 
-const DetailPage = async ({ params }: { params: { id: string } }) => {
+const DetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   // const router= ()=>{
   //   redirect("/")
   // }
 
-  const { id } = params;
+  const { id } = await params;
   const posts = await fetchPost();
   const post = posts?.find((p) => p.id === id);
 

@@ -110,7 +110,7 @@ const Navigation = () => {
 
               <div className="flex gap-2 items-center">
                 <Image
-                  src={session?.user?.image || <FaUser />}
+                  src={`${session?.user?.image}` || `${(<FaUser />)}`}
                   width={36}
                   height={36}
                   alt={`${authorInitial}`}
@@ -162,7 +162,7 @@ const Navigation = () => {
 
               <div className="flex gap-2 items-center">
                 <Image
-                  src={session?.user?.image || <FaUser />}
+                  src={`${session?.user?.image}` || `${(<FaUser />)}`}
                   width={36}
                   height={36}
                   alt={`${authorInitial}`}

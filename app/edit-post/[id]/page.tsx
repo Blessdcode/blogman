@@ -23,7 +23,7 @@ const getPost = async (): Promise<TPost[] | null> => {
   return null;
 };
 
-export default async function EditPost({ params }: { params: { id: string } }) {
+export default async function EditPost({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
 
   if (!session) {
@@ -31,7 +31,7 @@ export default async function EditPost({ params }: { params: { id: string } }) {
   }
 
 
-  const { id } = params;
+  const { id } = await params;
   const posts = await getPost();
   const post = posts?.find((p: TPost) => p.id === id);
 
