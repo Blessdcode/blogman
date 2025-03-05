@@ -21,16 +21,13 @@ export async function POST(
   }
 }
 
-export async function PUT(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const {id} = await params;
+  const { id } = await params;
   const { title, content, imageUrl, publicId, author, category, links } =
     await req.json();
 
