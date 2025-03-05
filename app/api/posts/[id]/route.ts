@@ -4,22 +4,22 @@ import prisma from "@/lib/prisma";
 import { authOptions } from "@/app/utils/authOptions";
 // import { authOptions } from "../../auth/[...nextauth]/route";
 
-// export async function POST(
-//   req: Request,
-//   { params }: { params: { id: string } }
-// ) {
-//   try {
-//     const id = params.id;
-//     const post = await prisma.post.findUnique({ where: { id } });
-//     return NextResponse.json(post, { status: 200 });
-//   } catch (error) {
-//     console.log(error);
-//     return NextResponse.json(
-//       { error: "Something went wrong" },
-//       { status: 500 }
-//     );
-//   }
-// }
+export async function GET(
+  req: Request,
+  context: { params: { id: string } }
+) {
+  try {
+    const id = context.params.id;
+    const post = await prisma.post.findUnique({ where: { id } });
+    return NextResponse.json(post, { status: 200 });
+  } catch (error) {
+    console.log(error);
+    return NextResponse.json(
+      { error: "Something went wrong" },
+      { status: 500 }
+    );
+  }
+}
 
 export async function PUT(
   req: Request,
