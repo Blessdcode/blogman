@@ -37,8 +37,8 @@ export async function POST(req: Request) {
     });
     console.log(newPost, "post created");
     return NextResponse.json(newPost, { status: 201 });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.log(error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
