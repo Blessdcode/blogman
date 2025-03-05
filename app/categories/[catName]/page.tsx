@@ -1,10 +1,9 @@
-// import React from "react";
+import React from "react";
 
 
-// const page = ({ params }: { params: { catName: string } }) => {
-//   const { catName } = params;
-//   // console.log(id)
-//   return <div className="sm:my-16 my-6">{catName} category</div>;
-// };
+const page = () => {
+  // console.log(id)
+  return <div className="sm:my-16 my-6"> category</div>;
+};
 
-// export default page;
+export default page;
