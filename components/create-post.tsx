@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -12,10 +13,9 @@ import {
 } from "next-cloudinary";
 import Image from "next/image";
 
-// import { authOptions } from "../utils/authOptions";
-import { getServerSession } from "next-auth";
+import { useSession } from "next-auth/react";
 import { authOptions } from "@/app/utils/authOptions";
-// import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 
 const CreatePost = () => {
@@ -37,7 +37,7 @@ const CreatePost = () => {
     fetchCategories();
   }, []);
 
-  const session = getServerSession(authOptions);
+  const {data:session} = useSession()
 
   const handleImageUpload = (result: CloudinaryUploadWidgetResults) => {
     const info = result.info as object;
