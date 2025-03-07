@@ -91,7 +91,7 @@ const CreatePost = () => {
         body: JSON.stringify({
           title,
           content,
-          category: selectedCategory,
+          categoryId: selectedCategory,
           imageUrl,
           publicId,
         }),

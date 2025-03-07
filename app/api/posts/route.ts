@@ -10,41 +10,41 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const { title, content, imageUrl, publicId, author, category, links } =
-    await req.json();
-
-  // const authorEmail = session?.user?.email as string;
-
-  if (!title || !content) {
-    return NextResponse.json(
-      { error: "Title and content are required." },
-      { status: 500 }
-    );
-  }
-
   try {
+    const { title, content, imageUrl, publicId, category, links, catName } =
+      await req.json();
+    const authorEmail = session.user.email as string; 
+
+    if (!title || !content || !catName) {
+      return NextResponse.json(
+        { error: "Title, content, and category are required." },
+        { status: 400 }
+      );
+    }
+
     const newPost = await prisma.post.create({
       data: {
         title,
         content,
         imageUrl,
         publicId,
-        author,
-         category,
+        author: { connect: { email: authorEmail } }, 
+        category: { connect: { catName } }, 
         links,
-        // authorEmail,
       },
     });
+
     console.log(newPost, "post created");
     return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
-    console.log(error);
+    console.error("Error creating post:", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
     );
   }
 }
+
 
 export async function GET() {
   try {

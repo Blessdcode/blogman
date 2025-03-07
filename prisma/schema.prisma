@@ -66,8 +66,8 @@ model Post {
   content     String
   imageUrl    String?
   publicId    String?
-  catName     String?
-  category    Category? @relation(fields: [catName], references: [catName])
+categoryId  String?   @db.ObjectId
+  category    Category? @relation(fields: [categoryId], references: [id])
   author      User      @relation(fields: [authorEmail], references: [email])
   authorEmail String
   links       String[]

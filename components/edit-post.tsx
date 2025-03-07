@@ -88,7 +88,7 @@ const EditPostForm = ({ post }: { post: TPost }) => {
         body: JSON.stringify({
           title,
           content,
-          category: selectedCategory,
+         categoryId: selectedCategory,
           imageUrl,
           publicId,
         }),

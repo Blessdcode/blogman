@@ -32,25 +32,35 @@ export async function PUT(
   }
 
   const { id } = await params;
-  const { title, content, imageUrl, publicId, author, category, links } =
-    await req.json();
 
   try {
-    const updatedPost = await prisma.post.update({
+    const { title, content, imageUrl, publicId, category, links, catName } =
+      await req.json();
+    const authorEmail = session.user.email as string;
+
+    if (!title || !content || !catName) {
+      return NextResponse.json(
+        { error: "Title, content, and category are required." },
+        { status: 400 }
+      );
+    }
+
+    const newPost = await prisma.post.update({
       where: { id },
       data: {
         title,
         content,
         imageUrl,
         publicId,
-        author,
-        category,
+        category: { connect: {  catName } },
         links,
       },
     });
-    return NextResponse.json(updatedPost, { status: 200 });
+
+    console.log(newPost, "post updated");
+    return NextResponse.json(newPost, { status: 201 });
   } catch (error) {
-    // console.log(error);
+    console.error("Error updating post:", error);
     return NextResponse.json(
       { error: "Something went wrong" },
       { status: 500 }
@@ -68,7 +78,7 @@ export async function DELETE(
     return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
   }
 
-  const {id} =  await params;
+  const { id } = await params;
 
   try {
     const post = await prisma.post.delete({ where: { id } });
